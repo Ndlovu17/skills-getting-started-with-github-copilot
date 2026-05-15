@@ -38,6 +38,12 @@ activities = {
         "schedule": "Mondays, Wednesdays, Fridays, 2:00 PM - 3:00 PM",
         "max_participants": 30,
         "participants": ["john@mergington.edu", "olivia@mergington.edu"]
+    },
+    "Art Club": {
+        "description": "Explore drawing, painting, and creative design",
+        "schedule": "Wednesdays, 3:00 PM - 4:30 PM",
+        "max_participants": 15,
+        "participants": ["ava@mergington.edu", "liam@mergington.edu"]
     }
 }
 
@@ -59,6 +65,10 @@ def signup_for_activity(activity_name: str, email: str):
     if activity_name not in activities:
         raise HTTPException(status_code=404, detail="Activity not found")
 
+    #Validate if student is not registered already
+    if email in activities[activity_name]["participants"]:
+        raise HTTPException(status_code=400, detail="Student already signed up for this activity")
+   
     # Get the specific activity
     activity = activities[activity_name]
 
